@@ -98,6 +98,11 @@ li{
     border: none;
 }
 
+.delete:hover{
+    background-color: var(--secondary--color);
+    border-radius: 50%;
+}
+
 .customCheckbox{
     border: 2px solid var(--primary--color);
     border-radius: 50%;

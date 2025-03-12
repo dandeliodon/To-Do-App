@@ -1,4 +1,4 @@
-tasks = [];
+tasks = JSON.parse(localStorage.getItem("task")) || [];
 
 // Constructor
 function Task(name) {
@@ -7,9 +7,10 @@ function Task(name) {
 }
 
 function addToArray(name) {
-  createdTask = new Task(name);
+  const createdTask = new Task(name);
   tasks.push(createdTask);
   console.log(tasks);
+  addToStorage();
   displayBlocks();
 }
 
@@ -18,7 +19,7 @@ function displayBlocks() {
   block.innerHTML = "";
 
   tasks.forEach((task, taskIndex) => {
-    li = createToDoItem(task, taskIndex);
+    const li = createToDoItem(task, taskIndex);
     block.append(li);
   });
 }
@@ -40,7 +41,7 @@ function createToDoItem(task, taskIndex) {
             </svg>
           </label>
           <label for="toDo${taskIndex}" class="inputText">${task.name}</label>
-          <button class="delete">
+          <button class="delete" onclick="deleteItem(${taskIndex})">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -64,7 +65,22 @@ document.getElementById("form").addEventListener("submit", (event) => {
 
   const name = document.getElementById("toDoInput").value;
 
-  addToArray(name);
-
-  document.getElementById("toDoInput").value = "";
+  // input check
+  if (name.length > 0) {
+    name.trim;
+    addToArray(name);
+    document.getElementById("toDoInput").value = "";
+  }
 });
+
+function addToStorage() {
+  localStorage.setItem("task", JSON.stringify(tasks));
+}
+
+function deleteItem(index) {
+  tasks.splice(index, 1);
+  addToStorage();
+  displayBlocks();
+}
+
+displayBlocks();
